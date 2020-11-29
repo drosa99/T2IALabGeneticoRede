@@ -23,22 +23,42 @@ public class Agente {
 				rede.setPesosNaRede(8, pesos);
 		}
 
-		public void andarPraCima() {
+//		public void andarPraCima() {
+//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() - 1);
+//				movimentaAgente(novaPosicao);
+//		}
+//
+//		public void andarPraBaixo() {
+//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() + 1);
+//				movimentaAgente(novaPosicao);
+//		}
+//
+//		public void andarPraEsquerda() {
+//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() - 1, posicaoAtual.getPosY());
+//				movimentaAgente(novaPosicao);
+//		}
+//
+//		public void andarPraDireita() {
+//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() + 1, posicaoAtual.getPosY());
+//				movimentaAgente(novaPosicao);
+//		}
+
+		public void andarPraEsquerda() {
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() - 1);
 				movimentaAgente(novaPosicao);
 		}
 
-		public void andarPraBaixo() {
+		public void andarPraDireita() {
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() + 1);
 				movimentaAgente(novaPosicao);
 		}
 
-		public void andarPraEsquerda() {
+		public void andarPraCima() {
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() - 1, posicaoAtual.getPosY());
 				movimentaAgente(novaPosicao);
 		}
 
-		public void andarPraDireita() {
+		public void andarPraBaixo() {
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() + 1, posicaoAtual.getPosY());
 				movimentaAgente(novaPosicao);
 		}

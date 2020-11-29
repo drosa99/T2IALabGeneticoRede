@@ -34,10 +34,10 @@ public class AG {
 						populacao.forEach(this::aptidao);
 
 						//ordenada os cromossomos da populacao por aptida em order ascendente -> melhor primeiro
-						List<Cromossomo> ordenadaPorAptidao = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore)).collect(Collectors.toList());
+						//List<Cromossomo> ordenadaPorAptidao = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList());
 
 						//filtra dentro da populacao se algum cromossomo encontrou a saida -> se nao encontrou -> vencedor = null
-						vencedor = populacao.stream().filter(Cromossomo::isChegou).findFirst().orElse(null);
+						//vencedor = populacao.stream().filter(Cromossomo::isChegou).findFirst().orElse(null);
 						if (vencedor != null) {
 								achouSaida = true;
 								System.out.println("VENCEDOR!!!! SCORE " + vencedor.getScore() + " GERACAO: " + i);
@@ -57,6 +57,7 @@ public class AG {
 
 						//printa o andamento do algoritmo a cada X geracoes que recebeu por parametro
 						if (i % qtdGeracoesPrinte == 0) {
+								List<Cromossomo> ordenadaPorAptidao = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList());
 								System.out.println("Geracao: " + i);
 								System.out.println("Melhor cromossomo com score: " + ordenadaPorAptidao.get(0).getScore());
 								ordenadaPorAptidao.get(0).getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
@@ -90,7 +91,7 @@ public class AG {
 		public Cromossomo mutacao(double[] pesos) {
 				if (r.nextInt(101) < chanceMutacao) {
 						//aqui no i indica quantos pesos serão mutados
-						for(int i =0; i < 5; i ++) {
+						for(int i =0; i < 20; i ++) {
 								pesos[r.nextInt(pesos.length)] = r.nextDouble();
 						}
 				}

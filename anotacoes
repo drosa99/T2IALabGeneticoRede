@@ -1,0 +1,99 @@
+T2 IA
+
+Reutilizar algoritmo genético do T1
+Operador de Crossover vai ter que ser outro, o mais simples é média aritmética -> soma cada posição dos cromossomos e divide por 2
+Mudar a função de aptidão
+
+Rede vai iniciar com pesos aleatórios, não vai funcionar, o algo genético vai encontrar os pesos, cada cromossomo vai ser uma instancia de pesos da rede, o fitness vai ser o desempenho com a rede
+
+Para o algoritmo genético, cromossomo ser vetor de 40 posições de números reais
+
+
+Para o trabalho é só propagação, não tem retropropagação
+
+
+https://www.youtube.com/watch?v=tGFEvR8w0VU&feature=youtu.be a partir de 1:11:0 fala sobre o trabalho
+
+Tem que ter uma topologia pra fazer a propagação
+A saída da Rede é o tipo de movimento que o agente pode fazer (4 saídas da rede)
+Entrada da rede pode ser a posição + o entorno (células em volta dele)
+Tem que buscar mais moedas e saída
+Para cada célula do entorno, tem que saber a distância dela para a saída
+
+
+	- O objeto de posição tem espaço vazio ou parede ou moeda
+
+	- 8 entradas para a rede neural:
+		- Conteúdo de X-1, X+ 1, Y-1, Y+1  (Moeda (2), Caminho(0), Parede(1))
+		- Distância da saída: D(X-1), D(X+ 1), D(Y-1), D(Y+1)
+
+	- Usar distância de manhattan. Para células fora do labirinto colocar uma distância bem alta para ser ignorado
+
+	- Topologia da rede: 8 neurônios na entrada, 8 na camada oculta e 4 na saída
+
+Cada neurônio vai ter 9 pesos
+
+Classe neurônio vai ter 8 entradas, 9 pesos
+
+
+
+v é o peso
+Y até 8 é o resultado do neuronio da camada do meio
+
+
+
+
+
+
+
+O maior resultado é o "sinal mais forte"
+
+Os cromossomos vão ter um tamanho de 108, pois é a quantidade de pesos que tem, considerar que os 72 primeiros são da primeira camada. Pegar de 9 em 9, pois cada 9 é referente a um "entorno" da posição original.
+
+Pontuação: quando bate em parede tem que penalizar muito, quando coleta moedas bonifica e quando se aproxima da saída. Quanto mais pontos melhor.
+
+Ao final de uma população, temos a execução das redes com respectivos fitness, aí ver qual o melhor segundo o fitness, e faz o ciclo do genético. Os pesos da rede vão evoluir com o genético. O aprendizado por reforço é lento, vai fazer muitas gerações para achar ou melhorar.
+Vai ser só um labirinto, para funcionar
+
+Fazer com função de transferência logística
+https://www.youtube.com/watch?v=ZalUqLe8z8o&feature=youtu.be a partir de 1:02:00 fala bem o que é pra fazer
+
+
+
+Falta ver: https://www.youtube.com/watch?v=T0sgz_2S6gY&feature=youtu.be
+
+
+
+
+https://www.youtube.com/watch?v=uA-q_ryfNlQ&feature=youtu.be
+https://www.youtube.com/watch?v=tGFEvR8w0VU&feature=youtu.be
+https://www.youtube.com/watch?v=ZalUqLe8z8o&feature=youtu.be
+
+
+
+Ciclo da rede neural:
+Rodar entorno
+Mandar propagação para a rede
+Rede retorna movimento
+
+Se a rede bater na parede tem que recomeçar
+
+No algoritmo genetico tem que ir salvando os pesos e o quão bom eles foram, pois o genetico vai determinar os pesos -> vai ser o cromossomo e o resultado da aptidao do cromossomo.
+Vai andando conforme a rede mandar até bater em parede, quando bater calcula a aptidão do cromossomo de pesos, penalizando muito por bater na parede, bonificar quanto mais ele andar, quanto menos ciclos e quanto mais moedas coletou
+Cada cromossomo vai ser uma instância de labirinto e de rede.
+
+Na mutação, sempre mutar mais de 1 peso, X pesos e dar um next double
+
+Cada execução da rede decide 1 movimento
+
+
+
+O que fazer:
+Trocar para Agente ser chamado pela Rede Neural
+Movimentação do Agente tem que alterar o labirinto quando coleta a moeda tem que ser colocado 0 no lugar
+Mudar função de aptidão para retornar a pontuação da movimentação do Agente + distância da saída
+Criar enum de movimento para o resultado da execução da Rede
+Alterar o Cromossomo para ser vetor de doubles de tamanho 108
+Alterar o cruzamento para fazer média dos doubles
+Alterar a mutação para dar nextDouble e mutar mais de 1 no cromossomo
+
