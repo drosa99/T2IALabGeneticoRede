@@ -3,11 +3,19 @@ package src;
 import java.util.ArrayList;
 
 public class Agente {
-		private final int PENALIDADE_PAREDE = -2000;
-		private final int PENALIDADE_SAIU = -5000;
-		private final int PENALIDADE_REPETINDO = -20;
+//		private final int PENALIDADE_PAREDE = -500;
+//		private final int PENALIDADE_SAIU = -500;
+//		private final int PENALIDADE_REPETINDO = -30;
+//
+//		private final int PONTUACAO_MOEDA = 60;
+//		private final int PONTUACAO_ANDOU = 30;
 
-		private final int PONTUACAO_MOEDA = 30;
+		private final int PENALIDADE_PAREDE = -500;
+		private final int PENALIDADE_SAIU = -500;
+		private final int PENALIDADE_REPETINDO = -2;
+
+		private final int PONTUACAO_MOEDA = 3;
+		private final int PONTUACAO_ANDOU = 1;
 
 		private ArrayList<Posicao> caminhoPercorrido = new ArrayList<>();
 		private Posicao posicaoAtual;
@@ -90,11 +98,14 @@ public class Agente {
 				}
 
 				if (labirinto.isChaoValido(novaPosicao)) {
+						this.pontuacao += PONTUACAO_ANDOU;
+						labirinto.caminharEFecharCaminho(novaPosicao);
 						this.posicaoAtual = novaPosicao;
 				}
 
 				if (labirinto.isMoeda(novaPosicao)) {
-						labirinto.coletarMoeda(novaPosicao);
+						//labirinto.coletarMoeda(novaPosicao);
+						labirinto.caminharEFecharCaminho(novaPosicao);
 						this.pontuacao += PONTUACAO_MOEDA;
 						this.moedasColetadas++;
 						this.posicaoAtual = novaPosicao;
@@ -125,7 +136,8 @@ public class Agente {
 
 
 		public void jogar() {
-				while (!isGameOver()){
+				//se ja passou de X movimentos, para a execução, deve estar em ciclo
+				while (!isGameOver() && this.caminhoPercorrido.size() < 200){
 						double[] entradas = entorno(posicaoAtual.getPosX(), posicaoAtual.getPosY());
 						switch (rede.propagacaoComMovimento(entradas)){
 								case CIMA:
@@ -167,7 +179,7 @@ public class Agente {
 				visao[ind] = distancia(linhaAgente+1,colunaAgente);  //distancia da saída
 				ind++;
 
-				if(colunaAgente+1 >= labirinto.getLab()[0].length) visao[ind] = 1;                        //abaixo
+				if(colunaAgente+1 >= labirinto.getLab()[0].length) visao[ind] = 1;                        //direita
 				else visao[ind] = labirinto.getLab()[linhaAgente][colunaAgente+1];    //conteúdo célula
 				ind++;
 				visao[ind] = distancia(linhaAgente,colunaAgente+1);  //distancia da saída
@@ -178,7 +190,11 @@ public class Agente {
 		public int distancia(int linhaOrigem, int colunaOrigem){
 				int linhaDestino = labirinto.getFim().getPosX();
 				int colunaDestino = labirinto.getFim().getPosY();
-				return Math.abs(linhaOrigem - linhaDestino) + Math.abs(colunaOrigem-colunaDestino);
+				//return Math.abs(linhaOrigem - linhaDestino) + Math.abs(colunaOrigem-colunaDestino);
+
+				//aumentando a valorizacao da distancia
+				return (Math.abs(linhaOrigem - linhaDestino) + Math.abs(colunaOrigem-colunaDestino));
+
 		}
 
 		public int getMoedasColetadas() {

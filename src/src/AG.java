@@ -76,6 +76,9 @@ public class AG {
 				List<Cromossomo> populacao = new ArrayList<>();
 				for (int i = 0; i < tamanhoPopulacao; i++) {
 						double[] pesos = r.doubles(tamCromossomo).toArray();
+//						for(int j = 0 ; j < tamCromossomo ; j ++){
+//								if(r.nextBoolean()) pesos[j] = pesos[j] * -1;
+//						}
 						populacao.add(new Cromossomo(pesos));
 				}
 				return populacao;
@@ -91,7 +94,7 @@ public class AG {
 		public Cromossomo mutacao(double[] pesos) {
 				if (r.nextInt(101) < chanceMutacao) {
 						//aqui no i indica quantos pesos serão mutados
-						for(int i =0; i < 20; i ++) {
+						for(int i =0; i < 4; i ++) {
 								pesos[r.nextInt(pesos.length)] = r.nextDouble();
 						}
 				}
@@ -116,7 +119,9 @@ public class AG {
 		public List<Cromossomo> crossOver(List<Cromossomo> populacao) {
 				List<Cromossomo> novaPopulacao = new ArrayList<>();
 
-				for (int i = 0; i < tamanhoPopulacao; i++) {
+				//passa o melhor cromossomo direto para a próxima população
+				novaPopulacao.add(populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList()).get(0));
+				for (int i = 0; i < tamanhoPopulacao - 1; i++) {
 						double[] pai;
 						double[] mae;
 

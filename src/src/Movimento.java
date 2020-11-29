@@ -3,7 +3,7 @@ package src;
 import java.util.Arrays;
 
 public enum Movimento {
-		CIMA(0, "CIMA"), BAIXO(1, "BAIXO"), DIREITA(2, "DIREITA"), ESQUERDA(3, "ESQUERDA");
+		CIMA(0, "CIMA"), BAIXO(2, "BAIXO"), DIREITA(3, "DIREITA"), ESQUERDA(1, "ESQUERDA");
 
 		int valor;
 		String movimento;
