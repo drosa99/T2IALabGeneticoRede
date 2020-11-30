@@ -1,10 +1,7 @@
 package src;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AG {
@@ -69,15 +66,15 @@ public class AG {
 								melhorCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
 								System.out.println("\n --------------------------------------------------------------------------- \n");
 
-								Cromossomo medioCromossomo = ordenadaPorAptidao.get(55);
-								System.out.println("Médio cromossomo com score: " + medioCromossomo.getScore()
-										+ " Comandos para cima: " + medioCromossomo.getAgente().qtdComandosCima
-										+ " Comandos para esquerda: " + medioCromossomo.getAgente().qtdComandosEsquerda
-										+ " Comandos para baixo: " + medioCromossomo.getAgente().qtdComandosBaixo
-										+ " Comandos para direita: " + medioCromossomo.getAgente().qtdComandosDireita
-								);
-								medioCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
-								System.out.println("\n --------------------------------------------------------------------------- \n");
+//								Cromossomo medioCromossomo = ordenadaPorAptidao.get(55);
+//								System.out.println("Médio cromossomo com score: " + medioCromossomo.getScore()
+//										+ " Comandos para cima: " + medioCromossomo.getAgente().qtdComandosCima
+//										+ " Comandos para esquerda: " + medioCromossomo.getAgente().qtdComandosEsquerda
+//										+ " Comandos para baixo: " + medioCromossomo.getAgente().qtdComandosBaixo
+//										+ " Comandos para direita: " + medioCromossomo.getAgente().qtdComandosDireita
+//								);
+//								medioCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
+//								System.out.println("\n --------------------------------------------------------------------------- \n");
 						}
 
 						populacao = crossOver(populacao);
@@ -141,8 +138,8 @@ public class AG {
 						double[] pai;
 						double[] mae;
 
-						pai = torneio(populacao).getPesos();
-						mae = torneio(populacao).getPesos();
+						pai = Arrays.copyOf(torneio(populacao).getPesos(), 108);
+						mae = Arrays.copyOf(torneio(populacao).getPesos(), 108);
 
 						double[] novosPesos = new double[tamCromossomo];
 

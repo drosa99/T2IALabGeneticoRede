@@ -19,16 +19,16 @@ public class Labirinto {
 
 		public Labirinto() {
 				this.lab = new int[][]
-						{{0,8,1,1,1,0,0,8,1,1},       //9 : entrada/saida;   8: moeda;    1:parede;  0:caminho livre
-						{0,8,8,0,1,1,0,0,1,1},
-						{1,1,1,0,0,8,0,0,1,0},
-						{0,0,1,0,8,0,0,1,0,0},
-						{0,1,1,0,8,8,0,1,0,0},
-						{0,1,0,1,1,0,8,1,0,0},
-						{0,1,1,0,8,0,0,1,0,0},
-						{0,0,1,8,0,0,0,1,1,0},
-						{0,0,1,0,8,0,0,8,0,0},
-						{0,0,0,8,0,0,8,0,0,9}
+						{{4,6,1,1,1,4,4,6,1,1},       //9 : entrada/saida;   6: moeda;    1:parede;  4:caminho livre
+						{4,6,6,4,1,1,4,4,1,1},
+						{1,1,1,4,4,6,4,4,1,4},
+						{4,4,1,4,6,4,4,1,4,4},
+						{4,1,1,4,6,6,4,1,4,4},
+						{4,1,4,1,1,4,6,1,4,4},
+						{4,1,1,4,6,4,4,1,4,4},
+						{4,4,1,6,4,4,4,1,1,4},
+						{4,4,1,4,6,4,4,6,4,4},
+						{4,4,4,6,4,4,6,4,4,9}
 				};
 
 				inicio = new Posicao(0,0);
@@ -49,7 +49,7 @@ public class Labirinto {
 						return false;
 				}
 				int celula = lab[p.getPosX()][p.getPosY()];
-				return celula == 0;
+				return celula == 4;
 		}
 
 		public boolean isMoeda(Posicao p) {
@@ -57,7 +57,7 @@ public class Labirinto {
 						return false;
 				}
 				int celula = lab[p.getPosX()][p.getPosY()];
-				return celula == 8;
+				return celula == 6;
 		}
 
 
