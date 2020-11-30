@@ -42,6 +42,7 @@ public class Cromossomo {
 
     public void iniciaJogo(){
         agente.jogar();
+        setChegou(agente.getAchouSaida());
         setScore(agente.getPontuacao());
     }
 

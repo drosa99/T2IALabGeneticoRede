@@ -10,12 +10,12 @@ public class Agente {
 //		private final int PONTUACAO_MOEDA = 60;
 //		private final int PONTUACAO_ANDOU = 30;
 
-		private final int PENALIDADE_PAREDE = -500;
-		private final int PENALIDADE_SAIU = -500;
+		private final int PENALIDADE_PAREDE = -5;
+		private final int PENALIDADE_SAIU = -5;
 		private final int PENALIDADE_REPETINDO = -2;
 
-		private final int PONTUACAO_MOEDA = 3;
-		private final int PONTUACAO_ANDOU = 1;
+		private final int PONTUACAO_MOEDA = 40;
+		private final int PONTUACAO_ANDOU = 20;
 
 		private ArrayList<Posicao> caminhoPercorrido = new ArrayList<>();
 		private Posicao posicaoAtual;
@@ -26,8 +26,15 @@ public class Agente {
 		private boolean gameOver = false;
 		private Rede rede = new Rede(8,4);
 
+
+		int qtdComandosCima = 0;
+		int qtdComandosBaixo = 0;
+		int qtdComandosEsquerda = 0;
+		int qtdComandosDireita = 0;
+
 		public Agente(double[] pesos) {
 				this.posicaoAtual = labirinto.getInicio();
+				this.caminhoPercorrido.add(this.posicaoAtual);
 				rede.setPesosNaRede(8, pesos);
 		}
 
@@ -52,21 +59,25 @@ public class Agente {
 //		}
 
 		public void andarPraEsquerda() {
+				qtdComandosEsquerda++;
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() - 1);
 				movimentaAgente(novaPosicao);
 		}
 
 		public void andarPraDireita() {
+				qtdComandosDireita++;
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() + 1);
 				movimentaAgente(novaPosicao);
 		}
 
 		public void andarPraCima() {
+				qtdComandosCima++;
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() - 1, posicaoAtual.getPosY());
 				movimentaAgente(novaPosicao);
 		}
 
 		public void andarPraBaixo() {
+				qtdComandosBaixo++;
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() + 1, posicaoAtual.getPosY());
 				movimentaAgente(novaPosicao);
 		}
@@ -101,6 +112,7 @@ public class Agente {
 						this.pontuacao += PONTUACAO_ANDOU;
 						labirinto.caminharEFecharCaminho(novaPosicao);
 						this.posicaoAtual = novaPosicao;
+						this.caminhoPercorrido.add(this.posicaoAtual);
 				}
 
 				if (labirinto.isMoeda(novaPosicao)) {
@@ -109,9 +121,10 @@ public class Agente {
 						this.pontuacao += PONTUACAO_MOEDA;
 						this.moedasColetadas++;
 						this.posicaoAtual = novaPosicao;
+						this.caminhoPercorrido.add(this.posicaoAtual);
 				}
 
-				this.caminhoPercorrido.add(this.posicaoAtual);
+			//	this.caminhoPercorrido.add(this.posicaoAtual);
 		}
 
 		public Posicao getPosicaoAtual() {
@@ -137,7 +150,7 @@ public class Agente {
 
 		public void jogar() {
 				//se ja passou de X movimentos, para a execução, deve estar em ciclo
-				while (!isGameOver() && this.caminhoPercorrido.size() < 200){
+				while (!isGameOver() && this.caminhoPercorrido.size() < 200 && !this.achouSaida){
 						double[] entradas = entorno(posicaoAtual.getPosX(), posicaoAtual.getPosY());
 						switch (rede.propagacaoComMovimento(entradas)){
 								case CIMA:
@@ -184,6 +197,10 @@ public class Agente {
 				ind++;
 				visao[ind] = distancia(linhaAgente,colunaAgente+1);  //distancia da saída
 				ind++;
+
+				for(int i = 0; i < visao.length ; i++){
+						visao[i] = visao[i]/100;
+				}
 				return visao;
 		}
 

@@ -31,25 +31,25 @@ public class AG {
 				while (!achouSaida) {
 
 						//calcula a aptidao de todos os cromossomos da populacao
-						populacao.forEach(this::aptidao);
+						//populacao.forEach(this::aptidao);
+						populacao.parallelStream().forEach(this::aptidao);
 
 						//ordenada os cromossomos da populacao por aptida em order ascendente -> melhor primeiro
 						//List<Cromossomo> ordenadaPorAptidao = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList());
 
 						//filtra dentro da populacao se algum cromossomo encontrou a saida -> se nao encontrou -> vencedor = null
-						//vencedor = populacao.stream().filter(Cromossomo::isChegou).findFirst().orElse(null);
+						vencedor = populacao.stream().filter(Cromossomo::isChegou).findFirst().orElse(null);
 						if (vencedor != null) {
-								achouSaida = true;
 								System.out.println("VENCEDOR!!!! SCORE " + vencedor.getScore() + " GERACAO: " + i);
 								System.out.println(LocalDateTime.now());
 
-								populacao.forEach(it -> {
-										System.out.println("\n" + it.getScore());
+	//							populacao.forEach(it -> {
+	//									System.out.println("\n" + it.getScore());
 //										it.getPosicoes().forEach(o -> {
 //												System.out.print(o.toString());
 //										});
-								});
-								System.out.println();
+//								});
+	//							System.out.println();
 
 
 								return vencedor;
@@ -57,11 +57,27 @@ public class AG {
 
 						//printa o andamento do algoritmo a cada X geracoes que recebeu por parametro
 						if (i % qtdGeracoesPrinte == 0) {
-								List<Cromossomo> ordenadaPorAptidao = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList());
+								List<Cromossomo> ordenadaPorAptidao = populacao.stream().parallel().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList());
 								System.out.println("Geracao: " + i);
-								System.out.println("Melhor cromossomo com score: " + ordenadaPorAptidao.get(0).getScore());
-								ordenadaPorAptidao.get(0).getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
-								System.out.println("--------------------------------------------------------------------------- \n");
+								Cromossomo melhorCromossomo = ordenadaPorAptidao.get(0);
+								System.out.println("Melhor cromossomo com score: " + melhorCromossomo.getScore()
+										+ " Comandos para cima: " + melhorCromossomo.getAgente().qtdComandosCima
+										+ " Comandos para esquerda: " + melhorCromossomo.getAgente().qtdComandosEsquerda
+										+ " Comandos para baixo: " + melhorCromossomo.getAgente().qtdComandosBaixo
+										+ " Comandos para direita: " + melhorCromossomo.getAgente().qtdComandosDireita
+								);
+								melhorCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
+								System.out.println("\n --------------------------------------------------------------------------- \n");
+
+								Cromossomo medioCromossomo = ordenadaPorAptidao.get(55);
+								System.out.println("Médio cromossomo com score: " + medioCromossomo.getScore()
+										+ " Comandos para cima: " + medioCromossomo.getAgente().qtdComandosCima
+										+ " Comandos para esquerda: " + medioCromossomo.getAgente().qtdComandosEsquerda
+										+ " Comandos para baixo: " + medioCromossomo.getAgente().qtdComandosBaixo
+										+ " Comandos para direita: " + medioCromossomo.getAgente().qtdComandosDireita
+								);
+								medioCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
+								System.out.println("\n --------------------------------------------------------------------------- \n");
 						}
 
 						populacao = crossOver(populacao);

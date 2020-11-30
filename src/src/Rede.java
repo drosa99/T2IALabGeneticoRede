@@ -101,8 +101,4 @@ public class Rede
         }
         return msg;
     }
-
-    //TODO chamar o agente
-
-
 }
