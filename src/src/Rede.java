@@ -1,7 +1,5 @@
 package src;
 
-import java.util.Arrays;
-
 /**
  * Escreva a descrição da classe Rede aqui.
  * 

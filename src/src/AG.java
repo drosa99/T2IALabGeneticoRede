@@ -18,21 +18,15 @@ public class AG {
 
 		public Cromossomo genetica(int qtdGeracoesPrinte) {
 				System.out.println(LocalDateTime.now());
-				boolean achouSaida = false;
 				List<Cromossomo> populacao = iniciaPopulacao();
 				Cromossomo vencedor = null;
 				int i = 0;
 
-				//Ponto de parada: solucao otima -> achar a saida; apos um certo numero de geracoes -> recomeca
-				//todo mudar aqui para a condicao de parada
-				while (!achouSaida) {
+				//Ponto de parada: achar a saida
+				while (true) {
 
-						//calcula a aptidao de todos os cromossomos da populacao
-						//populacao.forEach(this::aptidao);
+						//aqui roda o jogo para todos os cromossomos da populacao
 						populacao.parallelStream().forEach(this::aptidao);
-
-						//ordenada os cromossomos da populacao por aptida em order ascendente -> melhor primeiro
-						//List<Cromossomo> ordenadaPorAptidao = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList());
 
 						//filtra dentro da populacao se algum cromossomo encontrou a saida -> se nao encontrou -> vencedor = null
 						vencedor = populacao.stream().filter(Cromossomo::isChegou).findFirst().orElse(null);
@@ -66,22 +60,11 @@ public class AG {
 								melhorCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
 								System.out.println("\n --------------------------------------------------------------------------- \n");
 
-//								Cromossomo medioCromossomo = ordenadaPorAptidao.get(55);
-//								System.out.println("Médio cromossomo com score: " + medioCromossomo.getScore()
-//										+ " Comandos para cima: " + medioCromossomo.getAgente().qtdComandosCima
-//										+ " Comandos para esquerda: " + medioCromossomo.getAgente().qtdComandosEsquerda
-//										+ " Comandos para baixo: " + medioCromossomo.getAgente().qtdComandosBaixo
-//										+ " Comandos para direita: " + medioCromossomo.getAgente().qtdComandosDireita
-//								);
-//								medioCromossomo.getAgente().getCaminhoPercorrido().forEach(posicao -> System.out.print(posicao.toString() + ", "));
-//								System.out.println("\n --------------------------------------------------------------------------- \n");
 						}
 
 						populacao = crossOver(populacao);
 						i++;
 				}
-				return vencedor;
-
 		}
 
 		//cria uma lista de Cromossomos, com pesos randomizado, tamanho da populacao e tamanho do vetor de movimentos parametrizado
@@ -89,9 +72,6 @@ public class AG {
 				List<Cromossomo> populacao = new ArrayList<>();
 				for (int i = 0; i < tamanhoPopulacao; i++) {
 						double[] pesos = r.doubles(tamCromossomo).toArray();
-//						for(int j = 0 ; j < tamCromossomo ; j ++){
-//								if(r.nextBoolean()) pesos[j] = pesos[j] * -1;
-//						}
 						populacao.add(new Cromossomo(pesos));
 				}
 				return populacao;
@@ -132,10 +112,11 @@ public class AG {
 		public List<Cromossomo> crossOver(List<Cromossomo> populacao) {
 				List<Cromossomo> novaPopulacao = new ArrayList<>();
 
-				//passa o melhor cromossomo direto para a próxima população
+				//passa o melhor cromossomo direto para a proxima populacao
 				Cromossomo melhorCromossomo = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList()).get(0);
 				Cromossomo melhorCromoDuplicado = new Cromossomo(Arrays.copyOf(melhorCromossomo.getPesos(), 108));
 				novaPopulacao.add(melhorCromoDuplicado);
+
 				for (int i = 0; i < tamanhoPopulacao - 1; i++) {
 						double[] pai;
 						double[] mae;

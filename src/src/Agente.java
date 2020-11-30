@@ -3,13 +3,6 @@ package src;
 import java.util.ArrayList;
 
 public class Agente {
-//		private final int PENALIDADE_PAREDE = -500;
-//		private final int PENALIDADE_SAIU = -500;
-//		private final int PENALIDADE_REPETINDO = -30;
-//
-//		private final int PONTUACAO_MOEDA = 60;
-//		private final int PONTUACAO_ANDOU = 30;
-
 		private final int PENALIDADE_PAREDE = -5;
 		private final int PENALIDADE_SAIU = -5;
 		private final int PENALIDADE_REPETINDO = -2;
@@ -38,26 +31,6 @@ public class Agente {
 				rede.setPesosNaRede(8, pesos);
 		}
 
-//		public void andarPraCima() {
-//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() - 1);
-//				movimentaAgente(novaPosicao);
-//		}
-//
-//		public void andarPraBaixo() {
-//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() + 1);
-//				movimentaAgente(novaPosicao);
-//		}
-//
-//		public void andarPraEsquerda() {
-//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() - 1, posicaoAtual.getPosY());
-//				movimentaAgente(novaPosicao);
-//		}
-//
-//		public void andarPraDireita() {
-//				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX() + 1, posicaoAtual.getPosY());
-//				movimentaAgente(novaPosicao);
-//		}
-
 		public void andarPraEsquerda() {
 				qtdComandosEsquerda++;
 				Posicao novaPosicao = new Posicao(posicaoAtual.getPosX(), posicaoAtual.getPosY() - 1);
@@ -83,6 +56,8 @@ public class Agente {
 		}
 
 
+		//metodo que faz a movimentacao do agente para a posicao indicada, verifica as condicoes da terreno e contabiliza pontuacao
+		//apos sair de uma posicao valida, coloca uma parede no lugar para evitar ciclos e repeticoes
 		private void movimentaAgente(Posicao novaPosicao) {
 				if (labirinto.isSaida(novaPosicao)) {
 						this.posicaoAtual = novaPosicao;
@@ -116,7 +91,6 @@ public class Agente {
 				}
 
 				if (labirinto.isMoeda(novaPosicao)) {
-						//labirinto.coletarMoeda(novaPosicao);
 						labirinto.caminharEFecharCaminho(novaPosicao);
 						this.pontuacao += PONTUACAO_MOEDA;
 						this.moedasColetadas++;
@@ -124,7 +98,6 @@ public class Agente {
 						this.caminhoPercorrido.add(this.posicaoAtual);
 				}
 
-			//	this.caminhoPercorrido.add(this.posicaoAtual);
 		}
 
 		public Posicao getPosicaoAtual() {
@@ -149,7 +122,7 @@ public class Agente {
 
 
 		public void jogar() {
-				//se ja passou de X movimentos, para a execução, deve estar em ciclo
+				//se ja passou de X movimentos, para a execucaoo, deve estar em ciclo
 				while (!isGameOver() && this.caminhoPercorrido.size() < 200 && !this.achouSaida){
 						double[] entradas = entorno(posicaoAtual.getPosX(), posicaoAtual.getPosY());
 						switch (rede.propagacaoComMovimento(entradas)){
@@ -166,6 +139,8 @@ public class Agente {
 										andarPraEsquerda();
 						}
 				}
+
+				//tira da pontuacao a distancia ate a saida
 				pontuacao -= distancia(posicaoAtual.getPosX(), posicaoAtual.getPosY());
 		}
 
@@ -207,9 +182,6 @@ public class Agente {
 		public int distancia(int linhaOrigem, int colunaOrigem){
 				int linhaDestino = labirinto.getFim().getPosX();
 				int colunaDestino = labirinto.getFim().getPosY();
-				//return Math.abs(linhaOrigem - linhaDestino) + Math.abs(colunaOrigem-colunaDestino);
-
-				//aumentando a valorizacao da distancia
 				return (Math.abs(linhaOrigem - linhaDestino) + Math.abs(colunaOrigem-colunaDestino));
 
 		}

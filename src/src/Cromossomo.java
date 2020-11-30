@@ -1,13 +1,10 @@
 package src;
 
-import java.util.ArrayList;
-
 public class Cromossomo {
 
     private double[] pesos;
     private int score;
     private boolean chegou = false;
-    //private ArrayList<Posicao> posicoes;
     private Agente agente;
 
 
@@ -45,10 +42,4 @@ public class Cromossomo {
         setChegou(agente.getAchouSaida());
         setScore(agente.getPontuacao());
     }
-
-    //cromossomo vai ter labirinto, agente e rede
-
-
-
-
 }
