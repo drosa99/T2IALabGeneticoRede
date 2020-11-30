@@ -133,7 +133,9 @@ public class AG {
 				List<Cromossomo> novaPopulacao = new ArrayList<>();
 
 				//passa o melhor cromossomo direto para a próxima população
-				novaPopulacao.add(populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList()).get(0));
+				Cromossomo melhorCromossomo = populacao.stream().sorted(Comparator.comparing(Cromossomo::getScore).reversed()).collect(Collectors.toList()).get(0);
+				Cromossomo melhorCromoDuplicado = new Cromossomo(Arrays.copyOf(melhorCromossomo.getPesos(), 108));
+				novaPopulacao.add(melhorCromoDuplicado);
 				for (int i = 0; i < tamanhoPopulacao - 1; i++) {
 						double[] pai;
 						double[] mae;
