@@ -3,6 +3,7 @@ package src;
 import java.util.ArrayList;
 import java.util.List;
 
+//Grupo: Daniela Amaral e Vinicius Lima
 public class Labirinto {
 		public static final String ANSI_GREEN = "\u001B[32m";
 		public static final String ANSI_BLUE = "\u001B[34m";
@@ -15,7 +16,6 @@ public class Labirinto {
 		private Posicao inicio;
 		private Posicao fim;
 		private List<Posicao> paredes = new ArrayList<>();
-		private int qtdZeros = 0;
 
 		public Labirinto() {
 				this.lab = new int[][]
@@ -79,10 +79,6 @@ public class Labirinto {
 
 		public List<Posicao> getParedes() {
 				return paredes;
-		}
-
-		public void addParede(Posicao p) {
-				this.paredes.add(p);
 		}
 
 		public String printaLabirinto(int[][] labirinto) {

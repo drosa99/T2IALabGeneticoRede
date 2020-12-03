@@ -2,10 +2,10 @@ package src;
 
 import java.util.ArrayList;
 
+//Grupo: Daniela Amaral e Vinicius Lima
 public class Agente {
 		private final int PENALIDADE_PAREDE = -5;
 		private final int PENALIDADE_SAIU = -5;
-		private final int PENALIDADE_REPETINDO = -2;
 
 		private final int PONTUACAO_MOEDA = 40;
 		private final int PONTUACAO_ANDOU = 20;
@@ -28,6 +28,7 @@ public class Agente {
 		public Agente(double[] pesos) {
 				this.posicaoAtual = labirinto.getInicio();
 				this.caminhoPercorrido.add(this.posicaoAtual);
+				//coloca os pesos na rede
 				rede.setPesosNaRede(8, pesos);
 		}
 
@@ -69,7 +70,7 @@ public class Agente {
 						return;
 				}
 
-				if (labirinto.getParedes().stream().anyMatch(it -> novaPosicao.equals(it)) || labirinto.isParede(novaPosicao)) {
+				if (labirinto.isParede(novaPosicao)) {
 						this.pontuacao += PENALIDADE_PAREDE;
 						this.gameOver = true;
 				}
@@ -77,10 +78,6 @@ public class Agente {
 				if (labirinto.saiuLabirinto(novaPosicao)) {
 						this.pontuacao += PENALIDADE_SAIU;
 						this.gameOver = true;
-				}
-
-				if (caminhoPercorrido.stream().anyMatch(it -> it.equals(novaPosicao))) {
-						this.pontuacao += PENALIDADE_REPETINDO;
 				}
 
 				if (labirinto.isChaoValido(novaPosicao)) {
@@ -122,8 +119,8 @@ public class Agente {
 
 
 		public void jogar() {
-				//se ja passou de X movimentos, para a execucaoo, deve estar em ciclo
-				while (!isGameOver() && this.caminhoPercorrido.size() < 200 && !this.achouSaida){
+				//se deu game over por bater na parede/sair do labirinto ou achou a saida -> para a execucao
+				while (!isGameOver() && !this.achouSaida){
 						double[] entradas = entorno(posicaoAtual.getPosX(), posicaoAtual.getPosY());
 						switch (rede.propagacaoComMovimento(entradas)){
 								case CIMA:

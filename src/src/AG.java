@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//Grupo: Daniela Amaral e Vinicius Lima
 public class AG {
 		private int tamanhoPopulacao;
 		private int tamCromossomo;
@@ -18,6 +19,8 @@ public class AG {
 
 		public Cromossomo genetica(int qtdGeracoesPrinte) {
 				System.out.println(LocalDateTime.now());
+
+				//inicia a populacao
 				List<Cromossomo> populacao = iniciaPopulacao();
 				Cromossomo vencedor = null;
 				int i = 0;
@@ -62,6 +65,7 @@ public class AG {
 
 						}
 
+						//faz o ciclo do genetico
 						populacao = crossOver(populacao);
 						i++;
 				}

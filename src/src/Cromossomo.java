@@ -1,5 +1,6 @@
 package src;
 
+//Grupo: Daniela Amaral e Vinicius Lima
 public class Cromossomo {
 
     private double[] pesos;
